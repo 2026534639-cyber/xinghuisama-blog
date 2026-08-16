@@ -13,6 +13,7 @@ export default function Live2DWidget() {
     document.head.appendChild(link);
 
     const script = document.createElement("script");
+    script.type = "module";
     script.src = "/live2d/lib/waifu-tips.js";
     script.onload = () => {
       (window as any).initWidget?.({
