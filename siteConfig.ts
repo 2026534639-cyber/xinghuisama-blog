@@ -31,7 +31,7 @@ export const siteConfig = {
   photoWallImage: "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
   cloudMusicIds: ["1809646618", "3361076230", "1859390262"],
   // 5.5 自定义音频直链（name + url，绕过网易云直接播放）
-  customAudios: [],
+  customAudios: [{"name": "I'm sorry mom", "url": "https://xinghuisama-blog-ruby.vercel.app/music/M5000000bngQ2jxO8J.mp3"}, {"name": "I have no friends", "url": "https://xinghuisama-blog-ruby.vercel.app/music/M500001IxBW424PiAE.mp3"}, {"name": "I Love You So - The Walters", "url": "https://xinghuisama-blog-ruby.vercel.app/music/I%2BLove%2BYou%2BSo-The%2BWalters%23iXNiV.mp3"}, {"name": "I Really Want to Stay at Your House - Cyberpunk", "url": "https://xinghuisama-blog-ruby.vercel.app/music/I%2BReally%2BWant%2Bto%2BStay%2Bat%2BYour%2BHouse-Cyberpunk%232rIm5Y.mp3"}, {"name": "天气先生 - 方大同", "url": "https://xinghuisama-blog-ruby.vercel.app/music/%E5%A4%A9%E6%B0%94%E5%85%88%E7%94%9F-%E6%96%B9%E5%A4%A7%E5%90%8C%231D7Ig.mp3"}, {"name": "unhappy - s0rrow", "url": "https://xinghuisama-blog-ruby.vercel.app/music/unhappy-s0rrow%232L4eJd.mp3"}],
   social: {
     github: "",
     gitee: "",
