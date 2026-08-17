@@ -45,7 +45,7 @@ export default function Fireflies() {
 
       {/* 动画引擎 */}
       <style>{`
-        /* 内层：纯粹的光芒呼吸闪烁 */
+        /* 内层：纯粹的光芒呼吸闪烁（无 box-shadow，静态渐变模拟光晕，零重绘） */
         @keyframes fireflyBreathe {
           0%, 100% { 
             opacity: 0; 
@@ -54,7 +54,6 @@ export default function Fireflies() {
           50% { 
             opacity: 1; 
             transform: scale(1.2); 
-            box-shadow: 0 0 10px 3px rgba(100, 255, 150, 0.8), 0 0 20px 6px rgba(50, 255, 100, 0.4);
           }
         }
 
@@ -97,9 +96,9 @@ export default function Fireflies() {
           <div
             className="rounded-full"
             style={{
-              width: `${fly.size}px`,
-              height: `${fly.size}px`,
-              backgroundColor: 'rgba(200, 255, 200, 0.9)',
+              width: `${fly.size * 3}px`,
+              height: `${fly.size * 3}px`,
+              background: 'radial-gradient(circle, rgba(200, 255, 200, 0.95) 0%, rgba(100, 255, 150, 0.35) 55%, transparent 100%)',
               animation: `fireflyBreathe ${fly.breatheDuration}s ease-in-out infinite`,
               animationDelay: `${fly.breatheDelay}s`,
             }}

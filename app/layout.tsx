@@ -75,21 +75,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <div className="absolute inset-0 z-[-9] bg-white/60 dark:bg-slate-900/70 transition-colors duration-1000"></div>
 
                 <div
-                  className="absolute inset-0 z-[-8] opacity-60 dark:opacity-20 mix-blend-color transition-opacity duration-1000 transform-gpu"
+                  className="absolute inset-0 z-[-8] opacity-60 dark:opacity-20 transition-opacity duration-1000 transform-gpu"
                   style={{
                     background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(', ')})`,
                     backgroundSize: '400% 400%',
-                    animation: 'gradientMove 40s ease infinite' // 🌟 全端保留渐变流动
+                    animation: 'gradientMove 40s ease infinite' // 🌟 transform 平移，GPU 合成零重绘
                   }}
                 ></div>
 
                 {/* 👇 🌟 优化：blur 光晕改为 radial-gradient，零 GPU 成本，视觉不变 */}
                 <div
-                  className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full z-[-7] md:mix-blend-overlay [--glow1:rgba(255,255,255,0.4)] dark:[--glow1:rgba(49,46,129,0.5)]"
+                  className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full z-[-7] [--glow1:rgba(255,255,255,0.4)] dark:[--glow1:rgba(49,46,129,0.5)]"
                   style={{ background: 'radial-gradient(circle, var(--glow1), transparent 70%)' }}
                 ></div>
                 <div
-                  className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full z-[-7] md:mix-blend-overlay [--glow2:rgba(129,140,248,0.35)] dark:[--glow2:rgba(88,28,135,0.4)]"
+                  className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full z-[-7] [--glow2:rgba(129,140,248,0.35)] dark:[--glow2:rgba(88,28,135,0.4)]"
                   style={{ background: 'radial-gradient(circle, var(--glow2), transparent 70%)' }}
                 ></div>
 
@@ -128,9 +128,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
             <style suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `
               @keyframes gradientMove { 
-                0% { background-position: 0% 50%; } 
-                50% { background-position: 100% 50%; } 
-                100% { background-position: 0% 50%; } 
+                0% { transform: translateX(0) translateY(0); } 
+                25% { transform: translateX(-12.5%) translateY(-12.5%); } 
+                50% { transform: translateX(-25%) translateY(0); } 
+                75% { transform: translateX(-12.5%) translateY(12.5%); } 
+                100% { transform: translateX(0) translateY(0); } 
               }
             `}} />
           </MusicProvider>
