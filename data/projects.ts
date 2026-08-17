@@ -11,14 +11,11 @@ export type Project = {
 
 export const projectsData: Project[] = [
   {
-    "id": "proj_1775049332705",
-    "name": "Computational Chemistry Tool",
-    "githubUrl": "https://github.com/heiehiehi/Computational_Chemistry_Tool",
-    "description": "该工具本作者使用在Win下的WSL2平台，系统为Ubuntu22，个人使用请依据自己数据进行修改（这些工具只是整合了一些流程）",
+    "id": "proj_1786963811213",
+    "name": "测试",
+    "githubUrl": "测试",
+    "description": "暂无描述。",
     "icon": "🚀",
-    "tags": [
-      "Gromacs",
-      "RMSF"
-    ]
-  },
+    "tags": []
+  }
 ];

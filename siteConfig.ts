@@ -2,43 +2,43 @@
 
 export const siteConfig = {
   // 1. 网站标题与博主信息
-  title: "XingHuiSama の 宝藏之地",
+  title: "Chaiiの自留地",
   faviconUrl: "https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
-  authorName: "XingHuiSama",
-  bio: "在代码、学术与分子动力学模拟间穿梭的普通人。近期正埋头于 GROMACS 模拟研究与神经网络计算。",
+  authorName: "Chasii",
+  bio: "准大一 SZUer intj-a-c",
 
-  navTitle: "XingHuiSama",
+  navTitle: "Chasii",
 
   // 👇 【新增】导航栏中间的那个后缀/分隔符（默认是 の）
   navSuffix: "の",
 
-  navAfter: "宝藏之地",
+  navAfter: "自留地",
 
   // 2. 头像设置 (支持网络链接，或将图片放入 public 文件夹后使用 "/me.jpg")
-  avatarUrl: "https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
+  avatarUrl: "https://free.picui.cn/free/2026/08/17/6a82eed8a9ffa.jpg",
 
   // 3. 网站背景设置 (二选一)
   // 如果想用纯图片背景，请在下面 bgImage 写路径，并将 useGradient 设为 false
   useGradient: false,
   themeColors: ["#a18cd1", "#fbc2eb", "#a1c4fd", "#c2e9fb"], // 呼吸流动的颜色组合
 // 修改这里：变成图片数组
-  bgImages: ["https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4acdb5.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4d9486.jpg"],
+  bgImages: ["https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4acdb5.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4d9486.jpg", "https://free.picui.cn/free/2026/08/17/6a82748f26cc2.png"],
 
   // 4. 文章默认封面图 (当 Markdown 没写 cover 时显示)
   defaultPostCover: "https://bu.dusays.com/2026/03/24/69c1e38b346cb.jpg",
 
   // 5. 首页照片墙预览图
   photoWallImage: "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
-  cloudMusicIds: ["1809646618", "3361076230", "1859390262"],
+  cloudMusicIds: [],
   // 5.5 自定义音频直链（name + url，绕过网易云直接播放）
   customAudios: [{"name": "I'm sorry mom", "url": "https://xinghuisama-blog-ruby.vercel.app/music/M5000000bngQ2jxO8J.mp3"}, {"name": "I have no friends", "url": "https://xinghuisama-blog-ruby.vercel.app/music/M500001IxBW424PiAE.mp3"}, {"name": "I Love You So - The Walters", "url": "https://xinghuisama-blog-ruby.vercel.app/music/I%2BLove%2BYou%2BSo-The%2BWalters%23iXNiV.mp3"}, {"name": "I Really Want to Stay at Your House - Cyberpunk", "url": "https://xinghuisama-blog-ruby.vercel.app/music/I%2BReally%2BWant%2Bto%2BStay%2Bat%2BYour%2BHouse-Cyberpunk%232rIm5Y.mp3"}, {"name": "天气先生 - 方大同", "url": "https://xinghuisama-blog-ruby.vercel.app/music/%E5%A4%A9%E6%B0%94%E5%85%88%E7%94%9F-%E6%96%B9%E5%A4%A7%E5%90%8C%231D7Ig.mp3"}, {"name": "unhappy - s0rrow", "url": "https://xinghuisama-blog-ruby.vercel.app/music/unhappy-s0rrow%232L4eJd.mp3"}],
   social: {
-    github: "",
+    github: "https://github.com/2026534639-cyber",
     gitee: "",
-    google: "",
-    email: "",
-    qq: "1124533793",
-    wechat: "XingHuisama",
+    google: "mailto:bilibiliwuwuwu@gmail.com",
+    email: "2026534639@qq.com",
+    qq: "2026534639",
+    wechat: "LikeMeteor2026",
   },
   counts: {
     photos: 128, // 照片墙数量可以手动写死或动态计算
@@ -48,7 +48,7 @@ export const siteConfig = {
 
 
   // 👇 【新增】：全局背景弹幕配置
-  danmakuList: ["在干嘛呢？", "有笨蛋嘛？", "前方高能反应！", "GROMACS 跑起来了吗？", "MD 模拟什么时候才能出图啊", "Graph Neural Networks 炼丹中...", "BUG 修复进度 99%", "今天背单词了吗？", "Tailwind CSS 拯救前端", "写算法中", "睡大觉中", "到底在干嘛？"],
+  danmakuList: [],
   gitalkConfig: {
     clientID: "",
     clientSecret: "",
@@ -68,6 +68,6 @@ export const siteConfig = {
     maxOutputTokens: 150,
     temperature: 0.85,
   },
-  friendLinkApplyFormat: "名称：XingHuiSamaの宝藏之地\n简介：今天我也要学习吗\n链接：https://www.xinghuisama.top\n头像：https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
+  friendLinkApplyFormat: "",
   enableLevelSystem: true,
 };
