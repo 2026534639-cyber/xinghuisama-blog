@@ -11,6 +11,7 @@ export default function ClickEffect() {
     if (!ctx) return;
 
     let ripples: any[] = [];
+    let running = false;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -60,18 +61,19 @@ export default function ClickEffect() {
       }
     }
 
-    const handleClick = (e: MouseEvent) => {
+const handleClick = (e: MouseEvent) => {
       ripples.push(new Ripple(e.clientX, e.clientY));
+      // 有点击才启动渲染循环，无涟漪时完全零开销
+      if (!running) {
+        running = true;
+        requestAnimationFrame(animate);
+      }
     };
 
     window.addEventListener('click', handleClick);
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // 增加全局模糊，让涟漪更有“云端”质感
-      ctx.shadowBlur = 15;
-      ctx.shadowColor = 'rgba(129, 140, 248, 0.5)';
 
       for (let i = 0; i < ripples.length; i++) {
         ripples[i].update();
@@ -81,9 +83,12 @@ export default function ClickEffect() {
           i--;
         }
       }
-      requestAnimationFrame(animate);
+      if (ripples.length > 0) {
+        requestAnimationFrame(animate);
+      } else {
+        running = false;
+      }
     };
-    animate();
 
     return () => {
       window.removeEventListener('resize', resize);
