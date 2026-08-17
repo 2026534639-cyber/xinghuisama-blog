@@ -82,6 +82,17 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let isMounted = true;
+
+    const buildCustomPlaylist = () => (siteConfig.customAudios || []).map((item: any, index: number) => ({
+      id: `custom-${index}`,
+      title: item.name || '自定义音频',
+      artist: '自定义',
+      cover: 'https://bu.dusays.com/2026/03/24/69c24230a5ff8.jpg',
+      src: item.url,
+      lrcUrl: null,
+      lyrics: []
+    }));
+
     const fetchMusicData = async () => {
       try {
         const res = await fetch(`/api/music?ids=${siteConfig.cloudMusicIds.join(',')}`);
@@ -100,16 +111,23 @@ export function MusicProvider({ children }: { children: ReactNode }) {
           }));
 
         if (isMounted) {
-          if (mergedPlaylist.length > 0) setPlaylist(mergedPlaylist);
+          const finalPlaylist = [...mergedPlaylist, ...buildCustomPlaylist()];
+          if (finalPlaylist.length > 0) setPlaylist(finalPlaylist);
           else setCurrentLyric("云端链路受阻");
           setIsLoading(false);
         }
       } catch (error) {
-        if (isMounted) { setCurrentLyric("网络初始化失败"); setIsLoading(false); }
+        if (isMounted) {
+          const finalPlaylist = buildCustomPlaylist();
+          if (finalPlaylist.length > 0) setPlaylist(finalPlaylist);
+          else setCurrentLyric("网络初始化失败");
+          setIsLoading(false);
+        }
       }
     };
 
     if (siteConfig.cloudMusicIds?.length > 0) fetchMusicData();
+    else if ((siteConfig.customAudios || []).length > 0) setPlaylist(buildCustomPlaylist());
     else setIsLoading(false);
 
     return () => { isMounted = false; };
