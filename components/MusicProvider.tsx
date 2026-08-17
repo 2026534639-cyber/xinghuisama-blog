@@ -127,7 +127,10 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     };
 
     if (siteConfig.cloudMusicIds?.length > 0) fetchMusicData();
-    else if ((siteConfig.customAudios || []).length > 0) setPlaylist(buildCustomPlaylist());
+    else if ((siteConfig.customAudios || []).length > 0) {
+      setPlaylist(buildCustomPlaylist());
+      setIsLoading(false);
+    }
     else setIsLoading(false);
 
     return () => { isMounted = false; };
