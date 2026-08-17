@@ -89,7 +89,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       artist: '自定义',
       cover: 'https://bu.dusays.com/2026/03/24/69c24230a5ff8.jpg',
       src: item.url,
-      lrcUrl: null,
+      lrcUrl: item.url.replace(/\.(mp3|m4a|ogg)$/i, '.lrc'),
       lyrics: []
     }));
 
@@ -156,6 +156,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
                 newPlaylist[currentIndex].lyrics = parsed;
                 return newPlaylist;
              });
+             if (parsed.length === 0) setCurrentLyric("\u266a \u7eaf\u4eab\u97f3\u4e50 \u266a");
           }
         })
         .catch(() => { if (isMounted) setCurrentLyric("\u266a \u7eaf\u4eab\u97f3\u4e50 \u266a"); });
