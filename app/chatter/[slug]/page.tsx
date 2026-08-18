@@ -24,7 +24,7 @@ import SidebarLyric from '../../../components/SidebarLyric';
 import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const chattersDirectory = path.join(process.cwd(), 'chatters');
   if (!fs.existsSync(chattersDirectory)) return [];
   const filenames = fs.readdirSync(chattersDirectory);

@@ -80,6 +80,24 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // 🌟 防卡死：用 ref 缓存实时状态，供超时回调读取
+  const isPlayingRef = useRef(false);
+  const playlistRef = useRef<any[]>([]);
+  useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
+  useEffect(() => { playlistRef.current = playlist; }, [playlist]);
+
+  // 🌟 安全播放：play() 带超时保护，防止源文件加载挂起导致 UI 卡死
+  const safePlay = (audio: HTMLAudioElement) => {
+    const p = audio.play();
+    if (p !== undefined) p.catch(() => setIsPlaying(false));
+    setTimeout(() => {
+      if (isPlayingRef.current && audio.paused && !audio.ended) {
+        setCurrentLyric("♪ 加载超时，已自动跳过 ♪");
+        if (playlistRef.current.length > 1) nextSong();
+      }
+    }, 10000);
+  };
+
   useEffect(() => {
     let isMounted = true;
 
@@ -166,10 +184,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     }
 
     if (isPlaying && audioRef.current) {
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => setIsPlaying(false));
-      }
+      safePlay(audioRef.current);
     }
     return () => { isMounted = false; };
   }, [currentIndex, playlist.length]); // 移除 playlist 依赖防止无限循环，只依赖长度
@@ -184,7 +199,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) audioRef.current.pause();
-      else audioRef.current.play().catch(() => setIsPlaying(false));
+      else safePlay(audioRef.current);
       setIsPlaying(!isPlaying);
     }
   };
@@ -232,7 +247,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const handleEnded = () => {
     if (playMode === 'single' && audioRef.current) {
        audioRef.current.currentTime = 0;
-       audioRef.current.play();
+       safePlay(audioRef.current);
     } else {
        nextSong();
     }
@@ -275,9 +290,22 @@ export function MusicProvider({ children }: { children: ReactNode }) {
         <audio
           ref={audioRef}
           src={currentSong.src}
+          preload="metadata"
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded} // 使用我们重写的结束处理
           onLoadedMetadata={handleTimeUpdate}
+          onError={() => {
+            console.warn('音频加载失败:', currentSong?.src);
+            setIsPlaying(false);
+            setCurrentLyric("♪ 加载失败 ♪");
+            if (playlist.length > 1) {
+              setTimeout(() => nextSong(), 2000);
+            }
+          }}
+          onWaiting={() => setCurrentLyric("♪ 缓冲中... ♪")}
+          onCanPlay={() => {
+            if (lyrics.length === 0) setCurrentLyric("♪ 就绪 ♪");
+          }}
         />
       )}
     </MusicContext.Provider>

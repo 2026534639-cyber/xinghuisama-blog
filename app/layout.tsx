@@ -1,6 +1,5 @@
 import 'katex/dist/katex.min.css';
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { MusicProvider } from "../components/MusicProvider";
@@ -11,16 +10,6 @@ import MobileBackButton from '../components/MobileBackButton';
 import LazyDecorations from '../components/LazyDecorations';
 // 弹幕组件（保留，以后需要弹幕时取消注释并往 siteConfig.danmakuList 填内容即可）
 // import DanmakuBackground from '../components/DanmakuBackground';
-
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-
-const notoSerif = Noto_Serif_SC({
-  subsets: ["latin"],
-  weight: ["400", "700", "900"],
-  variable: "--font-serif",
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -33,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="zh-CN" className="h-full antialiased" suppressHydrationWarning>
       <head>
         <style
           suppressHydrationWarning

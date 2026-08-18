@@ -1,11 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 🚨 核心修改 1：关掉纯静态导出，让 Vercel 帮你把 API 跑起来！
-  // output: 'export',
-
-  // 🚨 核心修改 2：Vercel 不需要强制加斜杠，关掉它能避免很多 API 路径匹配错误
-  // trailingSlash: true,
+  // 🚨 静态导出模式：部署到 Cloudflare Pages（国内访问快）
+  // 注意：app/api 下的接口已移至 _legacy_api（静态站无服务器，未来转动态时移回 app/api 即可）
+  output: 'export',
 
   // 下面这些可以保留
   images: {

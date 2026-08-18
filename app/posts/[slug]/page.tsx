@@ -24,7 +24,7 @@ import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts');
   if (!fs.existsSync(postsDirectory)) return [];
 
