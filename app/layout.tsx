@@ -3,18 +3,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
-import BackgroundEffects from "../components/BackgroundEffects";
 import { MusicProvider } from "../components/MusicProvider";
-import FloatingPlayer from "../components/FloatingPlayer";
 import { siteConfig } from "../siteConfig";
-import ClickEffect from "../components/ClickEffect";
 import BackgroundSlider from "../components/BackgroundSlider";
-import GlobalToolbox from "../components/GlobalToolbox";
 import SplashScreen from "../components/SplashScreen";
-import CyberCat from '../components/CyberCat';
-
 import MobileBackButton from '../components/MobileBackButton';
-import Live2DWidget from '../components/Live2DWidget';
+import LazyDecorations from '../components/LazyDecorations';
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -78,11 +72,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   style={{
                     background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(', ')})`,
                     backgroundSize: '400% 400%',
-                    animation: 'gradientMove 40s ease infinite' // 🌟 transform 平移，GPU 合成零重绘
+                    animation: 'gradientMove 40s ease infinite'
                   }}
                 ></div>
 
-                {/* 👇 🌟 优化：blur 光晕改为 radial-gradient，零 GPU 成本，视觉不变 */}
                 <div
                   className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full z-[-7] [--glow1:rgba(255,255,255,0.4)] dark:[--glow1:rgba(49,46,129,0.5)]"
                   style={{ background: 'radial-gradient(circle, var(--glow1), transparent 70%)' }}
@@ -91,32 +84,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full z-[-7] [--glow2:rgba(129,140,248,0.35)] dark:[--glow2:rgba(88,28,135,0.4)]"
                   style={{ background: 'radial-gradient(circle, var(--glow2), transparent 70%)' }}
                 ></div>
+              </div>
 
-                {/* 隐藏手机端高负载粒子特效 */}
-                <div className="hidden md:block absolute inset-0 w-full h-full">
-                  <BackgroundEffects />
+              <LazyDecorations>
+                <div className="relative z-10 flex-1 flex flex-col">
+                  {children}
                 </div>
-              </div>
-
-              <div className="relative z-10 flex-1 flex flex-col">
-                {children}
-              </div>
-
-              <div className="hidden md:block">
-                <FloatingPlayer />
-              </div>
-
-              <div className="hidden md:block">
-                <GlobalToolbox />
-              </div>
+              </LazyDecorations>
 
               <div className="md:hidden block">
                 <MobileBackButton />
-              </div>
-
-              {/* 隐藏手机端点击粒子 */}
-              <div className="hidden md:block">
-                <ClickEffect />
               </div>
             </div>
 
@@ -130,14 +107,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               }
             `}} />
           </MusicProvider>
-
-          <div className="hidden md:block">
-            <CyberCat />
-          </div>
-
-          <div className="hidden md:block">
-            <Live2DWidget />
-          </div>
 
         </ThemeProvider>
       </body>
