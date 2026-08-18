@@ -9,13 +9,4 @@ export type Project = {
   tags: string[];
 };
 
-export const projectsData: Project[] = [
-  {
-    "id": "proj_1786963811213",
-    "name": "测试",
-    "githubUrl": "测试",
-    "description": "暂无描述。",
-    "icon": "🚀",
-    "tags": []
-  }
-];
+export const projectsData: Project[] = [];
