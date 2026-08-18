@@ -172,40 +172,36 @@ export default function CyberCat() {
         >
           <style>{`
             .cat-sprite {
-              position: relative;
               width: 100%;
               height: 100%;
-            }
-            .cat-frame {
-              position: absolute;
-              inset: 0;
-              background-image: url('/siamese-cat.png');
-              background-size: 300% 300%;
+              background-image: url('/siamese-cat.png'); 
+              background-size: 300% 300%; 
               background-repeat: no-repeat;
-              image-rendering: pixelated;
+              image-rendering: pixelated; 
             }
-            .cat-frame-0 { background-position: 0% 0%; }
-            .cat-frame-1 { background-position: 50% 0%; }
-            .cat-frame-2 { background-position: 100% 0%; }
-            .cat-petted .cat-frame-0 { background-position: 0% 50%; animation: pet-0 0.8s infinite; }
-            .cat-petted .cat-frame-1 { background-position: 50% 50%; animation: pet-1 0.8s infinite; }
-            .cat-petted .cat-frame-2 { background-position: 100% 50%; animation: pet-2 0.8s infinite; }
-            .cat-idle .cat-frame-0, .cat-thinking .cat-frame-0 { animation: idle-0 3s infinite; }
-            .cat-idle .cat-frame-1, .cat-thinking .cat-frame-1 { animation: idle-1 3s infinite; }
-            .cat-idle .cat-frame-2, .cat-thinking .cat-frame-2 { animation: idle-2 3s infinite; }
-            .cat-thinking .cat-frame-0, .cat-thinking .cat-frame-1, .cat-thinking .cat-frame-2 { animation-duration: 1.5s; }
-            @keyframes idle-0 { 0%, 33.32% { opacity: 1; } 33.33%, 100% { opacity: 0; } }
-            @keyframes idle-1 { 0%, 33.32% { opacity: 0; } 33.33%, 66.65% { opacity: 1; } 66.66%, 100% { opacity: 0; } }
-            @keyframes idle-2 { 0%, 66.65% { opacity: 0; } 66.66%, 100% { opacity: 1; } }
-            @keyframes pet-0 { 0%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
-            @keyframes pet-1 { 0%, 49.99% { opacity: 0; } 50%, 100% { opacity: 1; } }
-            @keyframes pet-2 { 0%, 100% { opacity: 0; } }
+            .cat-idle {
+              animation: idle-frames 3s infinite;
+              background-position-y: 0%; 
+            }
+            .cat-petted {
+              animation: pet-frames 0.8s infinite;
+              background-position-y: 50%; 
+            }
+            .cat-thinking {
+              animation: idle-frames 1.5s infinite;
+              background-position-y: 0%; 
+            }
+            @keyframes idle-frames {
+              0%, 33.32% { background-position-x: 0%; }
+              33.33%, 66.65% { background-position-x: 50%; }
+              66.66%, 100% { background-position-x: 100%; }
+            }
+            @keyframes pet-frames {
+              0%, 49.99% { background-position-x: 0%; }
+              50%, 100% { background-position-x: 50%; }
+            }
           `}</style>
-          <div className={`cat-sprite shadow-2xl ${isPetted ? 'cat-petted' : isThinking ? 'cat-thinking' : 'cat-idle'}`}>
-            <div className="cat-frame cat-frame-0" />
-            <div className="cat-frame cat-frame-1" />
-            <div className="cat-frame cat-frame-2" />
-          </div>
+          <div className={`cat-sprite shadow-2xl ${isPetted ? 'cat-petted' : isThinking ? 'cat-thinking' : 'cat-idle'}`} />
         </div>
       </div>
 

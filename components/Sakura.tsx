@@ -37,7 +37,7 @@ export default function Sakura() {
       {petals.map(p => (
         <div
           key={p.id}
-          className="absolute top-0 bg-pink-300/70 shadow-[0_0_5px_rgba(255,182,193,0.6)]"
+          className="absolute top-0 bg-pink-300/70"
           style={{
             left: p.left,
             width: `${p.size}px`,
