@@ -17,7 +17,7 @@ export default function TwikooComments({ path }: TwikooCommentsProps) {
     if (!containerRef.current || inited.current) return;
 
     twikoo.init({
-      envId: 'https://twikoo.vercel.app', // 👈 替换为你的腾讯云环境ID或Vercel地址
+      envId: 'blog-d7ggjp03sb503b09f',
       el: containerRef.current,
       path: path || pathname,
       onCommentLoaded: () => {
