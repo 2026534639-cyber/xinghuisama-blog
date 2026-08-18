@@ -26,7 +26,7 @@ export default function TwikooComments({ path }: TwikooCommentsProps) {
       // 兼容打包后的不同导出结构（default 可能是模块本身或空对象）
       const twikoo = (mod.default && mod.default.init) ? mod.default : mod;
       twikoo.init({
-        envId: 'blog-d7ggjp03sb503b09f',
+        envId: 'https://peppy-dodol-8fdb82.netlify.app/.netlify/functions/twikoo',
         el,
         path: path || pathname,
         onCommentLoaded: () => {
