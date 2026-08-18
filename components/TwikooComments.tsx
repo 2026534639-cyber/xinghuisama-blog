@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import twikoo from 'twikoo';
 
 interface TwikooCommentsProps {
   path?: string;
@@ -15,17 +14,26 @@ export default function TwikooComments({ path }: TwikooCommentsProps) {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // 清空重载，文章间切换时重新加载对应评论
-    containerRef.current.innerHTML = '';
+    let cancelled = false;
+    const el = containerRef.current;
 
-    twikoo.init({
-      envId: 'blog-d7ggjp03sb503b09f',
-      el: containerRef.current,
-      path: path || pathname,
-      onCommentLoaded: () => {
-        console.log('评论加载完成');
-      },
+    // 清空重载，文章间切换时重新加载对应评论
+    el.innerHTML = '';
+
+    // 动态导入，避免 SSR 时执行浏览器代码（self is not defined）
+    import('twikoo').then((mod) => {
+      if (cancelled) return;
+      mod.default.init({
+        envId: 'blog-d7ggjp03sb503b09f',
+        el,
+        path: path || pathname,
+        onCommentLoaded: () => {
+          console.log('评论加载完成');
+        },
+      });
     });
+
+    return () => { cancelled = true; };
   }, [pathname, path]);
 
   return (
