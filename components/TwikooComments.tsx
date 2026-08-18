@@ -23,7 +23,9 @@ export default function TwikooComments({ path }: TwikooCommentsProps) {
     // 动态导入，避免 SSR 时执行浏览器代码（self is not defined）
     import('twikoo').then((mod) => {
       if (cancelled) return;
-      mod.default.init({
+      // 兼容打包后的不同导出结构（default 可能是模块本身或空对象）
+      const twikoo = (mod.default && mod.default.init) ? mod.default : mod;
+      twikoo.init({
         envId: 'blog-d7ggjp03sb503b09f',
         el,
         path: path || pathname,
