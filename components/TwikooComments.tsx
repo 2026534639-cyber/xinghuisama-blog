@@ -11,10 +11,12 @@ interface TwikooCommentsProps {
 export default function TwikooComments({ path }: TwikooCommentsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const inited = useRef(false);
 
   useEffect(() => {
-    if (!containerRef.current || inited.current) return;
+    if (!containerRef.current) return;
+
+    // 清空重载，文章间切换时重新加载对应评论
+    containerRef.current.innerHTML = '';
 
     twikoo.init({
       envId: 'blog-d7ggjp03sb503b09f',
@@ -24,8 +26,6 @@ export default function TwikooComments({ path }: TwikooCommentsProps) {
         console.log('评论加载完成');
       },
     });
-
-    inited.current = true;
   }, [pathname, path]);
 
   return (
