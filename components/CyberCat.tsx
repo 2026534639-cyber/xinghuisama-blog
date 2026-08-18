@@ -190,10 +190,10 @@ export default function CyberCat() {
             .cat-petted .cat-frame-0 { background-position: 0% 50%; animation: pet-0 0.8s infinite; }
             .cat-petted .cat-frame-1 { background-position: 50% 50%; animation: pet-1 0.8s infinite; }
             .cat-petted .cat-frame-2 { background-position: 100% 50%; animation: pet-2 0.8s infinite; }
-            .cat-idle .cat-frame-0, .cat-thinking .cat-frame-0 { animation: idle-0 1.2s infinite; }
-            .cat-idle .cat-frame-1, .cat-thinking .cat-frame-1 { animation: idle-1 1.2s infinite; }
-            .cat-idle .cat-frame-2, .cat-thinking .cat-frame-2 { animation: idle-2 1.2s infinite; }
-            .cat-thinking .cat-frame-0, .cat-thinking .cat-frame-1, .cat-thinking .cat-frame-2 { animation-duration: 0.6s; }
+            .cat-idle .cat-frame-0, .cat-thinking .cat-frame-0 { animation: idle-0 3s infinite; }
+            .cat-idle .cat-frame-1, .cat-thinking .cat-frame-1 { animation: idle-1 3s infinite; }
+            .cat-idle .cat-frame-2, .cat-thinking .cat-frame-2 { animation: idle-2 3s infinite; }
+            .cat-thinking .cat-frame-0, .cat-thinking .cat-frame-1, .cat-thinking .cat-frame-2 { animation-duration: 1.5s; }
             @keyframes idle-0 { 0%, 33.32% { opacity: 1; } 33.33%, 100% { opacity: 0; } }
             @keyframes idle-1 { 0%, 33.32% { opacity: 0; } 33.33%, 66.65% { opacity: 1; } 66.66%, 100% { opacity: 0; } }
             @keyframes idle-2 { 0%, 66.65% { opacity: 0; } 66.66%, 100% { opacity: 1; } }
@@ -201,7 +201,7 @@ export default function CyberCat() {
             @keyframes pet-1 { 0%, 49.99% { opacity: 0; } 50%, 100% { opacity: 1; } }
             @keyframes pet-2 { 0%, 100% { opacity: 0; } }
           `}</style>
-          <div className={`cat-sprite drop-shadow-2xl ${isPetted ? 'cat-petted' : isThinking ? 'cat-thinking' : 'cat-idle'}`}>
+          <div className={`cat-sprite shadow-2xl ${isPetted ? 'cat-petted' : isThinking ? 'cat-thinking' : 'cat-idle'}`}>
             <div className="cat-frame cat-frame-0" />
             <div className="cat-frame cat-frame-1" />
             <div className="cat-frame cat-frame-2" />

@@ -71,8 +71,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   className="absolute inset-0 z-[-8] opacity-60 dark:opacity-20 transition-opacity duration-1000 transform-gpu"
                   style={{
                     background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(', ')})`,
-                    backgroundSize: '400% 400%',
-                    animation: 'gradientMove 40s ease infinite'
+                    backgroundSize: '400% 400%'
                   }}
                 ></div>
 
