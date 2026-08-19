@@ -25,24 +25,29 @@ export async function GET() {
     const dirPath = path.join(process.cwd(), dir);
     if (!fs.existsSync(dirPath)) return;
     const files = fs.readdirSync(dirPath).filter((f) => f.endsWith('.md'));
+    const raw: { time: number; item: string }[] = [];
     files.forEach((f) => {
       const { data, content } = matter(fs.readFileSync(path.join(dirPath, f), 'utf8'));
       const slug = f.replace(/\.md$/, '');
       const title = data.title || slug;
-      const date = new Date(data.date || Date.now()).toUTCString();
+      const date = new Date(data.date || Date.now());
       const base = type === 'post' ? 'posts' : 'chatter';
       const link = `${siteConfig.url}/${base}/${slug}`;
       const desc = stripHtml(content).slice(0, 300);
-      items.push(
-        `    <item>\n` +
-        `      <title>${escapeXml(title)}</title>\n` +
-        `      <link>${escapeXml(link)}</link>\n` +
-        `      <guid isPermaLink="true">${escapeXml(link)}</guid>\n` +
-        `      <pubDate>${date}</pubDate>\n` +
-        `      <description>${escapeXml(desc)}</description>\n` +
-        `    </item>`
-      );
+      raw.push({
+        time: date.getTime(),
+        item:
+          `    <item>\n` +
+          `      <title>${escapeXml(title)}</title>\n` +
+          `      <link>${escapeXml(link)}</link>\n` +
+          `      <guid isPermaLink="true">${escapeXml(link)}</guid>\n` +
+          `      <pubDate>${date.toUTCString()}</pubDate>\n` +
+          `      <description>${escapeXml(desc)}</description>\n` +
+          `    </item>`
+      });
     });
+    raw.sort((a, b) => b.time - a.time);
+    raw.forEach((r) => items.push(r.item));
   };
 
   collect('posts', 'post');

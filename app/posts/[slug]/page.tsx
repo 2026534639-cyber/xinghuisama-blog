@@ -130,7 +130,7 @@ async function getPostData(slug: string) {
 
   return {
     slug,
-    contentHtml: processedContent.toString().replace(/<img /g, '<img loading="lazy" '),
+    contentHtml: processedContent.toString().replace(/<img(?![^>]*loading=)[^>]*>/g, (m) => m.replace(/^<img/, '<img loading="lazy"')),
     toc: extractToc(content),
     title: data.title,
     date: data.date,

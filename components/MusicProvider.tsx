@@ -23,7 +23,7 @@ function parseLrc(lrcText: string) {
           const min = parseInt(match[1]);
           const sec = parseInt(match[2]);
           const ms = match[3] ? parseInt(match[3]) : 0;
-          const divisor = match[3] && match[3].length === 3 ? 1000 : 100;
+          const divisor = match[3] && match[3].length === 3 ? 1000 : match[3] && match[3].length === 2 ? 100 : 10;
           const time = min * 60 + sec + ms / divisor;
           result.push({ time, text: cleanText });
         }
@@ -113,8 +113,13 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 
     const fetchMusicData = async () => {
       try {
-        const res = await fetch(`/api/music?ids=${siteConfig.cloudMusicIds.join(',')}`);
-        const rawResults = await res.json();
+        const songIds = (siteConfig.cloudMusicIds || []);
+        const fetchPromises = songIds.map((id: string) =>
+          fetch(`https://api.injahow.cn/meting/?server=netease&type=song&id=${id}`)
+            .then((r) => r.json())
+            .catch(() => null)
+        );
+        const rawResults = await Promise.all(fetchPromises);
 
         const mergedPlaylist = rawResults
           .filter((song: any) => song && song.url && !song.error)

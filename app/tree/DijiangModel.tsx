@@ -2,7 +2,7 @@
 
 import { Suspense, useMemo, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Rocket, Loader2, FileText, MessageCircle, Lightbulb, ChevronLeft, ChevronRight, Layers, ChevronDown, ShieldAlert, AlertTriangle, Crosshair, Activity, Cpu, Camera, Users, Grid, X, LockKeyhole, Shield } from 'lucide-react';
+import { Loader2, FileText, MessageCircle, Lightbulb, ChevronLeft, ChevronRight, Layers, ChevronDown, ShieldAlert, AlertTriangle, Crosshair, Activity, Cpu, Camera, Users, Grid, X, LockKeyhole, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import * as THREE from 'three';
 
