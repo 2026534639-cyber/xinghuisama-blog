@@ -30,6 +30,8 @@ export async function GET() {
       const { data, content } = matter(fs.readFileSync(path.join(dirPath, f), 'utf8'));
       const slug = f.replace(/\.md$/, '');
       const title = data.title || slug;
+      // 🌟 隐藏文章不出现在 RSS
+      if (data.hidden) return;
       const date = new Date(data.date || Date.now());
       const base = type === 'post' ? 'posts' : 'chatter';
       const link = `${siteConfig.url}/${base}/${slug}`;

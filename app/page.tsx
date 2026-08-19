@@ -49,10 +49,11 @@ export default function Home() {
           title: data.title || '',
           description: data.description || '',
           content: content || '',
+          hidden: data.hidden || false,
           date: rawDate,
           formattedDate: formatUpdateTime(rawDate)
         };
-      }).sort((a, b) => {
+      }).filter((p: any) => !p.hidden).sort((a, b) => {
         const dateA = new Date(a.date).getTime();
         const dateB = new Date(b.date).getTime();
         if (dateB !== dateA) return dateB - dateA;

@@ -28,6 +28,9 @@ export default function Timeline() {
         const fileContents = fs.readFileSync(fullPath, 'utf8');
         const { data } = matter(fileContents);
 
+        // 🌟 隐藏文章不出现在归档
+        if (data.hidden) return;
+
         const postTags = data.tags && Array.isArray(data.tags) ? data.tags : ['未分类'];
 
         postTags.forEach(tag => {

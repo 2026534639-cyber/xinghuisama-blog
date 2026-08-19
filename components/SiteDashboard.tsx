@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 // 🌟 引入咱们的控制中心配置
 import { siteConfig } from '../siteConfig';
+import VisitorBadge from './VisitorBadge';
 
 export default function SiteDashboard() {
   const [timeStr, setTimeStr] = useState('');
@@ -43,6 +44,9 @@ export default function SiteDashboard() {
 
       {/* 中间与右侧：状态信息 */}
       <div className="flex-1 px-6 py-4 md:py-0 flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm font-bold text-slate-600 dark:text-slate-300">
+
+        {/* 🪪 访客编号 */}
+        <VisitorBadge />
 
         {/* 运行时间 */}
         <div className="flex items-center gap-2">

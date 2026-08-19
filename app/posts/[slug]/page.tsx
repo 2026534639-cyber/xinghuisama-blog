@@ -21,6 +21,7 @@ import PageTransition from '../../../components/PageTransition';
 import { siteConfig } from '../../../siteConfig';
 import ClientSocials from '../../../components/ClientSocials';
 import ClientTOC from '../../../components/ClientTOC';
+import ProtectedContent from '../../../components/ProtectedContent';
 import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
@@ -134,6 +135,7 @@ async function getPostData(slug: string) {
     toc: extractToc(content),
     title: data.title,
     date: data.date,
+    hidden: data.hidden || false,
     tags: data.tags && Array.isArray(data.tags) ? data.tags : [],
     cover: data.cover || siteConfig.defaultPostCover
   };
@@ -286,11 +288,15 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
                   }
                 `}</style>
 
-                <div
-                  id="article-content"
-                  className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 transition-colors duration-700 scroll-smooth"
-                  dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
-                />
+                {postData.hidden ? (
+                  <ProtectedContent contentHtml={postData.contentHtml} />
+                ) : (
+                  <div
+                    id="article-content"
+                    className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 transition-colors duration-700 scroll-smooth"
+                    dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
+                  />
+                )}
               </div>
 
               <div className="mt-12 md:mt-16">
