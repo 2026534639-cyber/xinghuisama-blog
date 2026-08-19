@@ -115,6 +115,31 @@ export default function MusicClient() {
     );
   }, [playlist, searchQuery]);
 
+  const groupedPlaylist = useMemo(() => {
+    const groups: { key: string; icon: string; songs: any[] }[] = [
+      { key: '华语', icon: '🇨🇳', songs: [] },
+      { key: 'DJ 嗨曲', icon: '🔥', songs: [] },
+      { key: '欧美 · 日韩', icon: '🌍', songs: [] },
+    ];
+    for (const song of playlist) {
+      const title = `${song.title || song.name || ''} ${song.artist || song.author || ''}`;
+      if (/DJ/i.test(title)) groups[1].songs.push(song);
+      else if (/[\u4e00-\u9fa5]/.test(title)) groups[0].songs.push(song);
+      else groups[2].songs.push(song);
+    }
+    return groups.filter((g) => g.songs.length > 0);
+  }, [playlist]);
+
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+  const toggleGroup = (key: string) => {
+    setCollapsedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
   if (isLoading || !currentSong) {
     return (
       <div className="min-h-screen relative pb-32 flex flex-col">
@@ -243,19 +268,34 @@ export default function MusicClient() {
                     </div>
                     <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 flex flex-col gap-2 md:gap-2.5">
                       <AnimatePresence mode='popLayout'>
-                        {filteredPlaylist.map((song: any) => {
-                          const originalIndex = playlist.findIndex((s: any) => s.id === song.id);
-                          const isPlayingThis = (song.id === currentSong.id);
+                        {(searchQuery.trim() ? filteredPlaylist.map((song) => ({ songs: [song] })) : groupedPlaylist).map((group: any, gi: number) => {
+                          const isCollapsed = !searchQuery.trim() && collapsedGroups.has(group.key);
                           return (
-                            <motion.div layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} key={song.id} onClick={() => handlePlaySong(originalIndex)} className={`group flex items-center justify-between p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer transition-all border ${isPlayingThis ? 'bg-white/60 dark:bg-slate-700/80 shadow-md border-indigo-500/30' : 'border-transparent hover:bg-white/30 dark:hover:bg-slate-700/40'}`}>
-                              <div className="flex items-center gap-3 md:gap-4 w-[85%]">
-                                <div className="relative w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-lg md:rounded-xl overflow-hidden shadow-sm">
-                                  <img src={song.cover || song.pic} alt="cover" className="w-full h-full object-cover" />
-                                  {isPlayingThis && isPlaying && <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px]"><div className="flex gap-[3px] items-end h-2 md:h-3"><span className="w-0.5 bg-white rounded-full animate-[bounce_1s_infinite_0ms]" /><span className="w-0.5 bg-white rounded-full animate-[bounce_1s_infinite_200ms]" /><span className="w-0.5 bg-white rounded-full animate-[bounce_1s_infinite_400ms]" /></div></div>}
-                                </div>
-                                <div className="flex flex-col truncate"><span className={`text-sm md:text-[15px] font-black truncate ${isPlayingThis ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-800 dark:text-slate-200'}`}>{song.title || song.name}</span><span className="text-[10px] md:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">{song.artist || song.author}</span></div>
-                              </div>
-                            </motion.div>
+                            <div key={gi} className="flex flex-col gap-1.5">
+                              {group.key && (
+                                <button onClick={() => toggleGroup(group.key)} className="flex items-center gap-2 px-2 py-1.5 mt-1 text-[11px] md:text-xs font-black text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-colors select-none">
+                                  <span>{group.icon}</span>
+                                  <span>{group.key}</span>
+                                  <span className="text-slate-400 dark:text-slate-500 font-bold">({group.songs.length})</span>
+                                  <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                              )}
+                              {!isCollapsed && group.songs.map((song: any) => {
+                                const originalIndex = playlist.findIndex((s: any) => s.id === song.id);
+                                const isPlayingThis = (song.id === currentSong.id);
+                                return (
+                                  <motion.div layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} key={song.id} onClick={() => handlePlaySong(originalIndex)} className={`group flex items-center justify-between p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer transition-all border ${isPlayingThis ? 'bg-white/60 dark:bg-slate-700/80 shadow-md border-indigo-500/30' : 'border-transparent hover:bg-white/30 dark:hover:bg-slate-700/40'}`}>
+                                    <div className="flex items-center gap-3 md:gap-4 w-[85%]">
+                                      <div className="relative w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-lg md:rounded-xl overflow-hidden shadow-sm">
+                                        <img src={song.cover || song.pic} alt="cover" className="w-full h-full object-cover" loading="lazy" />
+                                        {isPlayingThis && isPlaying && <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px]"><div className="flex gap-[3px] items-end h-2 md:h-3"><span className="w-0.5 bg-white rounded-full animate-[bounce_1s_infinite_0ms]" /><span className="w-0.5 bg-white rounded-full animate-[bounce_1s_infinite_200ms]" /><span className="w-0.5 bg-white rounded-full animate-[bounce_1s_infinite_400ms]" /></div></div>}
+                                      </div>
+                                      <div className="flex flex-col truncate"><span className={`text-sm md:text-[15px] font-black truncate ${isPlayingThis ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-800 dark:text-slate-200'}`}>{song.title || song.name}</span><span className="text-[10px] md:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">{song.artist || song.author}</span></div>
+                                    </div>
+                                  </motion.div>
+                                );
+                              })}
+                            </div>
                           );
                         })}
                       </AnimatePresence>
