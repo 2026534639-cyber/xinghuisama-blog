@@ -3,6 +3,7 @@
 export const siteConfig = {
   // 1. 网站标题与博主信息
   title: "Chaiiの自留地",
+  url: "https://fall07.top",
   faviconUrl: "https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
   authorName: "Chasii",
   bio: "准大一 SZUer intj-a-c",

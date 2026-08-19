@@ -18,6 +18,25 @@ export const metadata: Metadata = {
     icon: siteConfig.faviconUrl,
     apple: siteConfig.faviconUrl,
   },
+  metadataBase: new URL(siteConfig.url),
+  alternates: {
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: siteConfig.title }],
+    },
+  },
+  openGraph: {
+    type: 'website',
+    siteName: siteConfig.title,
+    title: siteConfig.title,
+    description: siteConfig.bio,
+    images: [{ url: siteConfig.avatarUrl, width: 1200, height: 630, alt: siteConfig.title }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.title,
+    description: siteConfig.bio,
+    images: [siteConfig.avatarUrl],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

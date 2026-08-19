@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -23,6 +24,33 @@ import ClientTOC from '../../../components/ClientTOC';
 import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const postData = await getPostData(slug);
+  const desc = postData.contentHtml.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().slice(0, 150);
+  const pageUrl = `${siteConfig.url}/posts/${slug}`;
+  return {
+    title: postData.title,
+    description: desc,
+    alternates: { canonical: pageUrl },
+    openGraph: {
+      type: 'article',
+      siteName: siteConfig.title,
+      title: postData.title,
+      description: desc,
+      url: pageUrl,
+      images: [{ url: postData.cover, width: 1200, height: 630, alt: postData.title }],
+      publishedTime: postData.date,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: postData.title,
+      description: desc,
+      images: [postData.cover],
+    },
+  };
+}
 
 export function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts');
