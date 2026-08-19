@@ -50,6 +50,12 @@ export default function SiteDashboard() {
           <span>系统已稳定运行：<span className="text-indigo-600 dark:text-indigo-400 font-black">{uptimeStr}</span></span>
         </div>
 
+        {/* 全站访问统计（不蒜子） */}
+        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span>访客 <span className="text-amber-600 dark:text-amber-400 font-black" id="busuanzi_value_site_uv"></span> 人 · 浏览 <span className="text-amber-600 dark:text-amber-400 font-black" id="busuanzi_value_site_pv"></span> 次</span>
+        </div>
+
         {/* 技术栈徽章 (🌟 动态映射 siteConfig 里的数组) */}
         <div className="flex gap-2">
           {siteConfig.footerBadges?.map((badge, index) => (
