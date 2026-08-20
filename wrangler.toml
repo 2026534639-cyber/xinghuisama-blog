@@ -1,6 +1,0 @@
-name = "xinghuisama-blog"
-pages_build_output_dir = "out"
-
-kv_namespaces = [
-  { binding = "VISITS", id = "fc950a02dcba48de9872792ba9f50976" }
-]

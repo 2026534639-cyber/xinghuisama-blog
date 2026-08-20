@@ -86,7 +86,7 @@ function getCityFromCf(cf) {
   if (!cf) return '';
   const region = REGION_ZH[cf.region] || cf.region || '';
   const city = CITY_ZH[cf.city] || cf.city || '';
-  if (region && city) return `${region}·${city}`;
+  if (region && city && region !== city) return `${region}·${city}`;
   if (region) return region;
   if (city) return city;
   return COUNTRY_ZH[cf.country] || cf.country || '';
