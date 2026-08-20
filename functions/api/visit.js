@@ -125,9 +125,25 @@ export async function onRequestPost(context) {
     const t = Date.now();
     const path = String(body.path || '/').slice(0, 200);
     const visitorId = String(body.visitorId || '').slice(0, 32);
-    const network = ['wifi', 'cellular', 'ethernet', 'unknown'].includes(body.network)
+    let network = ['wifi', 'cellular', 'ethernet', 'unknown'].includes(body.network)
       ? body.network
       : 'unknown';
+
+    // 🌟 网络类型修正：现代浏览器 navigator.connection.type 已被移除（返回 undefined），
+    //    前端只能上报 unknown。这里改用 Cloudflare ASN（运营商编号）判断：
+    //    移动运营商的 ASN → 数据网络；否则（家庭宽带/企业）→ WiFi。
+    const cfAsn = request.cf && request.cf.asn ? Number(request.cf.asn) : 0;
+    const MOBILE_ASNS = new Set([
+      9808, 24444, 56040, 9806, 24400, 24445, 9804, 24406, 24463, // 中国移动
+      9929, 4837, 17621, 4808, 17622, 17623, 9928, 9924,          // 中国联通
+      4134, 4809, 23724, 23725, 24064, 136958,                    // 中国电信
+      134761, 158025, 24453, 24564,                               // 中国广电
+    ]);
+    if (MOBILE_ASNS.has(cfAsn)) {
+      network = 'cellular';
+    } else if (network === 'unknown') {
+      network = 'wifi'; // 无法识别时，默认归为 WiFi（家用宽带占比更高）
+    }
 
     // IP 归属地（Cloudflare 原生地理信息 → 中文翻译）
     const city = getCityFromCf(request.cf);
