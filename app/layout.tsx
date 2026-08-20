@@ -6,6 +6,7 @@ import { MusicProvider } from "../components/MusicProvider";
 import { siteConfig } from "../siteConfig";
 import BackgroundSlider from "../components/BackgroundSlider";
 import SplashScreen from "../components/SplashScreen";
+import BusuanziLoader from "../components/BusuanziLoader";
 import MobileBackButton from '../components/MobileBackButton';
 import LazyDecorations from '../components/LazyDecorations';
 // 弹幕组件（保留，以后需要弹幕时取消注释并往 siteConfig.danmakuList 填内容即可）
@@ -64,7 +65,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             `
           }}
         />
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <BusuanziLoader />
       </head>
 
       <body className="w-screen overflow-x-hidden min-h-full flex flex-col relative transition-colors duration-1000 bg-slate-50 dark:bg-slate-950 font-serif">
