@@ -1,9 +1,32 @@
 // Cloudflare Pages Functions: 访客上报
 // POST /api/visit  body: { path, visitorId, network }
-// 记录 IP、城市（Cloudflare 原生地理信息）、访客编号、设备类型/型号、网络类型、时间、路径，
-// 按天存 KV（key: d:YYYY-MM-DD）
+// 记录 IP、城市（ip-api.com 中文归属地 + KV 缓存；失败时用 Cloudflare 原生地理信息兜底）、
+// 访客编号、设备类型/型号、网络类型、时间、路径，按天存 KV（key: d:YYYY-MM-DD）
 
-// 用 Cloudflare request.cf 自带的地理信息（零外部依赖，免费）
+// IP 归属地（ip-api.com 中文接口，CF 出口访问不受限；KV 缓存 30 天）
+async function getCity(env, ip) {
+  if (!ip || /^(127\.|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.|::1|localhost)/.test(ip)) return '';
+  try {
+    const cached = await env.VISITS.get('loc:' + ip);
+    if (cached) return cached;
+    const res = await fetch(`https://ip-api.com/json/${ip}?lang=zh-CN&fields=status,country,regionName,city`, {
+      signal: AbortSignal.timeout(5000),
+    });
+    const j = await res.json();
+    let city = '';
+    if (j && j.status === 'success') {
+      const region = (j.regionName || '').replace(/省$/, '');
+      const c = (j.city || '').replace(/市$/, '');
+      city = region ? `${region}·${c || '?'}` : `${j.country || ''}·${c || ''}`;
+    }
+    if (city) await env.VISITS.put('loc:' + ip, city, { expirationTtl: 2592000 });
+    return city;
+  } catch (e) {
+    return '';
+  }
+}
+
+// 兜底：Cloudflare 原生地理信息（英文）
 function getCityFromCf(cf) {
   if (!cf) return '';
   const city = String(cf.city || '').replace(/市$/, '');
@@ -51,8 +74,8 @@ export async function onRequestPost(context) {
       ? body.network
       : 'unknown';
 
-    // IP 归属地（Cloudflare 原生地理信息，无外部依赖）
-    const city = getCityFromCf(request.cf);
+    // IP 归属地：ip-api 中文优先，失败兜底 CF 英文
+    const city = (await getCity(env, ip)) || getCityFromCf(request.cf);
 
     // 东八区日期
     const dayKey = 'd:' + new Date(t + 8 * 3600 * 1000).toISOString().slice(0, 10);

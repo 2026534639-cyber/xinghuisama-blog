@@ -7,6 +7,7 @@ export async function onRequestGet(context) {
     ['vore', 'https://api.vore.top/api/IPdata?ip=' + ip],
     ['ipwho', 'https://ipwho.is/' + ip],
     ['freeipapi', 'https://freeipapi.com/api/json/' + ip],
+    ['ipapi', 'https://ip-api.com/json/' + ip + '?lang=zh-CN&fields=status,country,regionName,city'],
   ];
   for (const [name, url] of urls) {
     try {
