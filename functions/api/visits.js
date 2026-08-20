@@ -24,6 +24,7 @@ export async function onRequestGet(context) {
       devices: { mobile: 0, desktop: 0, tablet: 0 },
       networks: { wifi: 0, cellular: 0, ethernet: 0, unknown: 0 },
       models: {},
+      cities: {},
       daily: [],
       recent: [],
     };
@@ -53,6 +54,9 @@ export async function onRequestGet(context) {
       if (dv === 'mobile' && v.deviceModel) {
         result.models[v.deviceModel] = (result.models[v.deviceModel] || 0) + 1;
       }
+      if (v.city) {
+        result.cities[v.city] = (result.cities[v.city] || 0) + 1;
+      }
     }
     // 独立访客：优先按编号去重（编号更准），老数据无编号时退化为 IP
     result.uniqueVisitors = idSet.size > 0 ? idSet.size : ipSet.size;
@@ -60,7 +64,7 @@ export async function onRequestGet(context) {
     all.sort((a, b) => b.t - a.t);
     result.recent = all
       .slice(0, 100)
-      .map((v) => ({ t: v.t, ip: v.ip, visitorId: v.visitorId, device: v.device, deviceModel: v.deviceModel, network: v.network, path: v.path }));
+      .map((v) => ({ t: v.t, ip: v.ip, city: v.city, visitorId: v.visitorId, device: v.device, deviceModel: v.deviceModel, network: v.network, path: v.path }));
 
     return new Response(JSON.stringify(result), {
       headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' },
