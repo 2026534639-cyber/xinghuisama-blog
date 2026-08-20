@@ -7,6 +7,7 @@ import { siteConfig } from "../siteConfig";
 import BackgroundSlider from "../components/BackgroundSlider";
 import SplashScreen from "../components/SplashScreen";
 import BusuanziLoader from "../components/BusuanziLoader";
+import VisitorReporter from "../components/VisitorReporter";
 import MobileBackButton from '../components/MobileBackButton';
 import LazyDecorations from '../components/LazyDecorations';
 // 弹幕组件（保留，以后需要弹幕时取消注释并往 siteConfig.danmakuList 填内容即可）
@@ -121,6 +122,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               }
             `}} />
           </MusicProvider>
+          <VisitorReporter />
 
         </ThemeProvider>
       </body>
