@@ -12,15 +12,13 @@ const REGION_ZH = {
   Heilongjiang: '黑龙江', Anhui: '安徽', Jiangxi: '江西', Guangxi: '广西',
   Yunnan: '云南', Guizhou: '贵州', Shaanxi: '陕西', Gansu: '甘肃',
   Qinghai: '青海', Ningxia: '宁夏', Xinjiang: '新疆', Tibet: '西藏',
-  Inner Mongolia: '内蒙古', Shanxi: '山西', Hainan: '海南',
-  Taiwan: '台湾', Hong Kong: '香港', Macau: '澳门',
+  'Inner Mongolia': '内蒙古', Shanxi: '山西', Hainan: '海南',
+  Taiwan: '台湾', 'Hong Kong': '香港', Macau: '澳门',
 };
-
-// 常用城市英→中
 const CITY_ZH = {
   Guangzhou: '广州', Shenzhen: '深圳', Beijing: '北京', Shanghai: '上海',
   Hangzhou: '杭州', Chengdu: '成都', Wuhan: '武汉', Nanjing: '南京',
-  Suzhou: '苏州', Xi'an: '西安', Changsha: '长沙', Zhengzhou: '郑州',
+  Suzhou: '苏州', "Xi'an": '西安', Changsha: '长沙', Zhengzhou: '郑州',
   Qingdao: '青岛', Dalian: '大连', Xiamen: '厦门', Fuzhou: '福州',
   Jinan: '济南', Hefei: '合肥', Nanchang: '南昌', Kunming: '昆明',
   Guiyang: '贵阳', Nanning: '南宁', Haikou: '海口', Shijiazhuang: '石家庄',
@@ -55,7 +53,7 @@ const CITY_ZH = {
   Siping: '四平', Liaoyuan: '辽源', Tonghua: '通化', Baishan: '白山',
   Yanji: '延吉', Daqing: '大庆', Qiqihar: '齐齐哈尔', Mudanjiang: '牡丹江',
   Jiamusi: '佳木斯', Suihua: '绥化', Hegang: '鹤岗', Shuangyashan: '双鸭山',
-  Qitaihe: '七台河', Jixi: '鸡西', Yichun: '伊春', Daxing'anling: '大兴安岭',
+  Qitaihe: '七台河', Jixi: '鸡西', Yichun: '伊春', "Daxing'anling": '大兴安岭',
   Chifeng: '赤峰', Tongliao: '通辽', Hulunbuir: '呼伦贝尔', Baotou: '包头',
   Ordos: '鄂尔多斯', Wuhai: '乌海', Bayannur: '巴彦淖尔', Ulanqab: '乌兰察布',
   Xilingol: '锡林郭勒', Alxa: '阿拉善', Jiaozuo: '焦作', Xinxiang: '新乡',
@@ -64,12 +62,12 @@ const CITY_ZH = {
   Sanmenxia: '三门峡', Pingdingshan: '平顶山', Luohe: '漯河', Xuchang: '许昌',
   Kaifeng: '开封', Heze: '菏泽', Liaocheng: '聊城', Dezhou: '德州',
   Binzhou: '滨州', Dongying: '东营', Zaozhuang: '枣庄', Rizhao: '日照',
-  Jining: '济宁', Tai'an: '泰安', Zaoqing: '枣庄', Huai'an: '淮安',
+  Jining: '济宁', "Tai'an": '泰安', Huai'an: '淮安',
   Suqian: '宿迁', Zhenjiang: '镇江', Zhangzhou: '漳州', Sanming2: '三明',
   Xiangyang2: '襄阳', Huainan: '淮南', Huaibei: '淮北', Tongling: '铜陵',
   Chizhou: '池州', Xuancheng: '宣城', Huangshan: '黄山', Lu'an: '六安',
   Bozhou: '亳州', Fuyang: '阜阳', SuzhouAnhui: '宿州', Bengbu: '蚌埠',
-  Ma'anshan: '马鞍山', Luan: '六安', YichunJX: '宜春', Xinyu: '新余',
+  "Ma'anshan": '马鞍山', Luan: '六安', YichunJX: '宜春', Xinyu: '新余',
   Yingtan: '鹰潭', FuzhouJX: '抚州', Jingdezhen: '景德镇', PingxiangJX: '萍乡',
 };
 
