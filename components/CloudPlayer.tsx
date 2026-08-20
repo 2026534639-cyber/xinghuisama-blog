@@ -12,7 +12,7 @@ const formatTime = (time: number) => {
 };
 
 export default function CloudPlayer() {
-  const { playlist, currentSong, isPlaying, progress, currentTime, duration, currentLyric, isLoading, togglePlay, nextSong, prevSong, handleSeek } = useMusic();
+  const { playlist, currentSong, isPlaying, progress, currentTime, duration, currentLyric, isLoading, togglePlay, nextSong, prevSong, handleSeek, playMode, setPlayMode } = useMusic();
   const [displayedLyric, setDisplayedLyric] = useState("");
   // 🌟 初始化路由
   const router = useRouter();
@@ -80,6 +80,12 @@ export default function CloudPlayer() {
     handleSeek(e);
   };
 
+  const safeSetPlayMode = (mode: 'loop' | 'single' | 'random') => (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPlayMode(mode);
+  };
+
   return (
     <>
       <style>{`
@@ -141,7 +147,19 @@ export default function CloudPlayer() {
           </div>
 
           {/* 🌟 核心拦截：使用我们上面写的 safe 函数，阻止事件冒泡 */}
-          <div className="flex items-center justify-center gap-6">
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center gap-1 mr-1">
+              <button onClick={safeSetPlayMode('random')} title="随机播放" className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors relative z-20 ${playMode === 'random' ? 'text-indigo-500 bg-indigo-500/10' : 'text-slate-500 dark:text-slate-400 hover:text-indigo-400'}`}>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+              </button>
+              <button onClick={safeSetPlayMode('loop')} title="顺序循环播放" className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors relative z-20 ${playMode === 'loop' ? 'text-indigo-500 bg-indigo-500/10' : 'text-slate-500 dark:text-slate-400 hover:text-indigo-400'}`}>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+              </button>
+              <button onClick={safeSetPlayMode('single')} title="单曲循环" className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors relative z-20 ${playMode === 'single' ? 'text-indigo-500 bg-indigo-500/10' : 'text-slate-500 dark:text-slate-400 hover:text-indigo-400'}`}>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>
+              </button>
+            </div>
+
             <button onClick={safePrevSong} className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors drop-shadow-sm relative z-20">
                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
             </button>
