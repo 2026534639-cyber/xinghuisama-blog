@@ -58,6 +58,7 @@ interface MusicContextType {
   setVolume: (value: number) => void;
   toggleMute: () => void;
   togglePlayMode: () => void;
+  setPlayMode: (mode: PlayMode) => void;
 }
 
 const MusicContext = createContext<MusicContextType | null>(null);
@@ -288,7 +289,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
         playlist, currentIndex, currentSong, isPlaying, progress, currentTime, duration, currentLyric, isLoading,
         volume, isMuted, playMode, // 暴露新状态
         togglePlay, nextSong, prevSong, handleSeek,
-        playSong, setVolume, toggleMute, togglePlayMode // 暴露新方法
+        playSong, setVolume, toggleMute, togglePlayMode, setPlayMode // 暴露新方法
     }}>
       {children}
       {currentSong && (
