@@ -1,15 +1,17 @@
 // src/app/about/page.tsx
+import type { Metadata } from 'next';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
-import remarkGfm from 'remark-gfm'; // 🌟 引入 GFM 以支持 ~~删除线~~
+import remarkGfm from 'remark-gfm'; // 🌟 引入 GFM 以支持~~删除线~~
 import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
+import { siteConfig } from '../../siteConfig';
 
 // 引入高亮主题
 import 'highlight.js/styles/atom-one-dark.css';
@@ -19,6 +21,21 @@ import Navbar from '../../components/Navbar';
 import PageTransition from '../../components/PageTransition';
 import AboutClient from '../../components/AboutClient';
 import { Suspense } from 'react';
+
+// 🌟 SEO：关于我页独立 metadata
+export const metadata: Metadata = {
+  title: `关于我 | ${siteConfig.title}`,
+  description: siteConfig.bio,
+  alternates: { canonical: `${siteConfig.url}/about` },
+  openGraph: {
+    type: 'profile',
+    siteName: siteConfig.title,
+    title: `关于我 | ${siteConfig.title}`,
+    description: siteConfig.bio,
+    url: `${siteConfig.url}/about`,
+    images: [{ url: siteConfig.avatarUrl, width: 1200, height: 630, alt: siteConfig.title }],
+  },
+};
 
 function getDirActivities(dirName: string, typeLabel: '文章' | '杂谈' | '说说', linkPrefix: string) {
   const dirPath = path.join(process.cwd(), dirName);

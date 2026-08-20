@@ -1,9 +1,25 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import type { Metadata } from 'next';
+import { siteConfig } from '../../siteConfig';
 
 // 引入前台客户端组件
 import CreativeWorkshopClient from './CreativeWorkshopClient';
+
+// 🌟 SEO：创意工坊页独立 metadata
+export const metadata: Metadata = {
+  title: `创意工坊 | ${siteConfig.title}`,
+  description: `${siteConfig.authorName} 的创意工坊——程序、项目与灵感碎片`,
+  alternates: { canonical: `${siteConfig.url}/tree` },
+  openGraph: {
+    type: 'website',
+    siteName: siteConfig.title,
+    title: `创意工坊 | ${siteConfig.title}`,
+    description: `${siteConfig.authorName} 的创意工坊——程序、项目与灵感碎片`,
+    url: `${siteConfig.url}/tree`,
+  },
+};
 
 function getLocalItems(directoryName: string, typeName: string) {
   const dirPath = path.join(process.cwd(), directoryName);
